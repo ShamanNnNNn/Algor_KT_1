@@ -1,0 +1,73 @@
+class Node {
+    int key;
+    Node left, right;
+
+    public Node(int item) {
+        key = item;
+        left = right = null;
+    }
+}
+
+class BST {
+    Node root;
+
+    public BST() {
+        root = null;
+    }
+
+    void insert(int key) {
+        root = insertRec(root, key);
+    }
+
+    Node insertRec(Node root, int key) {
+        if (root == null) {
+            root = new Node(key);
+            return root;
+        }
+
+        if (key < root.key) {
+            root.left = insertRec(root.left, key);
+        } else if (key > root.key) {
+            root.right = insertRec(root.right, key);
+        }
+        return root;
+    }
+    boolean isBalanced() {
+        boolean balanced = checkBalanced(root) != -1;
+        if (balanced) {
+            System.out.println("Баланс");
+        } else {
+            System.out.println("Не баланс");
+        }
+        return balanced;
+    }
+
+
+    private int checkBalanced(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        
+        int leftHeight = checkBalanced(node.left);
+        if (leftHeight == -1) {
+            return -1;
+        }
+
+        int rightHeight = checkBalanced(node.right);
+        if (rightHeight == -1) {
+            return -1;
+        }
+
+        int heightDiff = Math.abs(leftHeight - rightHeight);
+
+
+        if (heightDiff > 1) {
+
+            return -1;
+        }
+
+        int currentHeight = Math.max(leftHeight, rightHeight) + 1;
+        return currentHeight;
+    }
+    }
+
